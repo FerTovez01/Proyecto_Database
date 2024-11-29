@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -29,7 +30,7 @@
 
             <div class="align-self-center collapse navbar-collapse flex-fill  d-lg-flex justify-content-lg-between" id="templatemo_main_nav">
                 <div class="flex-fill">
-                    <button type="button1" onclick="location.href='MenuBotones.html'">Menu</button>
+                    <button type="button1" onclick="location.href='MenuBotones.php'">Menu</button>
                     <style>
                     button[type="button1"] {
                         background-color: #833576;

@@ -1,3 +1,9 @@
+<?php 
+set_include_path(get_include_path() . PATH_SEPARATOR . 'C:\xampp\htdocs\ProyectoWeb\php');
+
+?>
+
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -11,7 +17,7 @@
         <div class="logo">
             <img src="../img/bf.png" alt="Logo">
         </div>
-        <button type="button" onclick="location.href='MenuBotones.html'">Volver</button>
+        <button type="button" onclick="location.href='MenuBotones.php'">Volver</button>
     </header>
     <div class="container">
         <h1>Lista de Marcas</h1>
@@ -32,7 +38,7 @@
                 </tr>
             </tbody>
             <div class="buttons" >
-                <button type="button" onclick="location.href='GestionMarca.html'"> Registrar Marca </button>
+                <button type="button" onclick="location.href='GestionMarca.php'"> Registrar Marca </button>
             </div>
         </table>
     </div>

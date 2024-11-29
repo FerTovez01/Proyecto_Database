@@ -1,3 +1,8 @@
+<?php 
+set_include_path(get_include_path() . PATH_SEPARATOR . 'C:\xampp\htdocs\ProyectoWeb\php');
+
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -11,7 +16,7 @@
         <div class="logo">
             <img src="../img/bf.png" alt="Logo">
         </div>
-        <button type="button" onclick="location.href='MenuBotones.html'">Volver</button>
+        <button type="button" onclick="location.href='MenuBotones.php'">Volver</button>
     </header>
     <div class="container">
         <h1>Gestión de Categoria</h1>

@@ -1,58 +1,68 @@
-<?php 
-// Incluir la conexión a la base de datos
+<?php
 set_include_path(get_include_path() . PATH_SEPARATOR . 'C:\xampp\htdocs\ProyectoWeb\php');
 include("conexion.php");
 
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Recibir datos del formulario
-    $primerNombre = $_POST['PrimerNombre'];
-    $segundoNombre = $_POST['SegundoNombre'];
-    $primerApellido = $_POST['PrimerApellido'];
-    $segundoApellido = $_POST['SegundoApellido'];
-    $telefono = $_POST['Telefono'];
-    $correo = $_POST['email'];
-    $departamento = $_POST['Departamento'];
-    $municipio = $_POST['Municipio'];
-    $colonia = $_POST['colonia'];
-    $calle = $_POST['calle'];
-    
-    // Registrar teléfono en la tabla `Telefono`
-    $sqlTelefono = "INSERT INTO Telefono (Numero) VALUES ('$telefono')";
-    if ($conexion->query($sqlTelefono) === TRUE) {
-        // Obtener el id del teléfono insertado
-        $telefonoId = $conexion->insert_id;
+    // Variables
+    $primerNombre = $conexion->real_escape_string($_POST['PrimerNombre']);
+    $segundoNombre = $conexion->real_escape_string($_POST['SegundoNombre']);
+    $primerApellido = $conexion->real_escape_string($_POST['PrimerApellido']);
+    $segundoApellido = $conexion->real_escape_string($_POST['SegundoApellido']);
+    $telefono = $conexion->real_escape_string($_POST['Telefono']);
+    $correo = $conexion->real_escape_string($_POST['email']);
+    $departamento = $conexion->real_escape_string($_POST['Departamento']);
+    $municipio = $conexion->real_escape_string($_POST['Municipio']);
+    $colonia = $conexion->real_escape_string($_POST['colonia']);
+    $calle = $conexion->real_escape_string($_POST['calle']);
 
-        // Registrar dirección en la tabla `direccion_persona`
-        $sqlDireccion = "INSERT INTO direccion_persona (Calle, Colonia_barrio, Municipio, Departamento) 
-                         VALUES ('$calle', '$colonia', '$municipio', '$departamento')";
-        if ($conexion->query($sqlDireccion) === TRUE) {
-            // Obtener el id de la dirección insertada
-            $direccionId = $conexion->insert_id;
+    // Iniciar transacción
+    $conexion->begin_transaction();
 
-            // Registrar persona en la tabla `Persona`
-            $sqlPersona = "INSERT INTO Persona (primer_Nombre, segundo_Nombre, primer_Apellido, segundo_Apellido, Telefono_idTelefono, Correo, Direccion_Persona_idDireccion_Persona) 
-                           VALUES ('$primerNombre', '$segundoNombre', '$primerApellido', '$segundoApellido', '$telefonoId', '$correo', '$direccionId')";
-            if ($conexion->query($sqlPersona) === TRUE) {
-                // Obtener el id de la persona insertada
-                $personaId = $conexion->insert_id;
+    try {
+        // Insertar teléfono
+        $sqlTelefono = "INSERT INTO Telefono (Numero) VALUES ('$telefono')";
+        if ($conexion->query($sqlTelefono) === TRUE) {
+            $idTelefono = $conexion->insert_id;
 
-                // Registrar cliente en la tabla `Cliente`
-                $fechaRegistro = date("Y-m-d H:i:s"); // Fecha y hora actuales
-                $sqlCliente = "INSERT INTO Cliente (Persona_idPersona, Fecha_Registro) 
-                               VALUES ('$personaId', '$fechaRegistro')";
-                if ($conexion->query($sqlCliente) === TRUE) {
-                    echo "";
+            // Insertar dirección
+            $sqlDireccion = "INSERT INTO direccion_persona (Calle, Colonia_barrio, Municipio, Departamento) 
+                             VALUES ('$calle', '$colonia', '$municipio', '$departamento')";
+            if ($conexion->query($sqlDireccion) === TRUE) {
+                $idDireccion = $conexion->insert_id;
+
+                // Insertar persona
+                $sqlPersona = "INSERT INTO Persona (primer_Nombre, segundo_Nombre, primer_Apellido, segundo_Apellido, Telefono_idTelefono, Correo, Direccion_Persona_idDireccion_Persona) 
+                               VALUES ('$primerNombre', '$segundoNombre', '$primerApellido', '$segundoApellido', '$idTelefono', '$correo', '$idDireccion')";
+                if ($conexion->query($sqlPersona) === TRUE) {
+                    $idPersona = $conexion->insert_id;
+
+                    // Insertar cliente
+                    $fechaRegistro = date("Y-m-d H:i:s");
+                    $sqlCliente = "INSERT INTO Cliente (Persona_idPersona, Fecha_Registro) 
+                                   VALUES ('$idPersona', '$fechaRegistro')";
+                    if ($conexion->query($sqlCliente) === TRUE) {
+                        // Confirmar transacción
+                        $conexion->commit();
+                        $successMessage = "Cliente registrado exitosamente.";
+                    } else {
+                        throw new Exception("Error al registrar cliente: " . $conexion->error);
+                    }
                 } else {
-                    echo "Error al registrar cliente: " . $conexion->error;
+                    throw new Exception("Error al registrar persona: " . $conexion->error);
                 }
             } else {
-                echo "Error al registrar persona: " . $conexion->error;
+                throw new Exception("Error al registrar dirección: " . $conexion->error);
             }
         } else {
-            echo "Error al registrar dirección: " . $conexion->error;
+            throw new Exception("Error al registrar teléfono: " . $conexion->error);
         }
-    } else {
-        echo "Error al registrar teléfono: " . $conexion->error;
+    } catch (Exception $e) {
+        // Si ocurre un error, revertir todas las operaciones
+        $conexion->rollback();
+        $errorMessage = "Error: " . $e->getMessage();
     }
 }
 ?>
@@ -64,11 +74,37 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestión de Clientes</title>
     <link rel="stylesheet" href="styles1.css">
+    <style>
+        /* Estilos para el mensaje emergente */
+        .message-box {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: #833576;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            display: none;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+            z-index: 9999;
+        }
+
+        .message-box.error {
+            background-color: #dc3545;
+        }
+
+        .message-box.show {
+            display: block;
+            opacity: 1;
+        }
+    </style>
 </head>
 <body>
     <header>
         <div class="logo">
-            <img src="../img/bf.png" alt="Logo">
+            <img src="../img/bf2.png" alt="Logo">
         </div>
         <button type="button" onclick="location.href='MenuBotones.php'">Volver</button>
     </header>
@@ -76,11 +112,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <h1>Gestión de Clientes</h1>
         <form method="POST" action="GestionCliente.php">
             <div class="column">
-                <label for="PrimerNombre">Primer Nombre:</label>
-                <input type="text" id="PrimerNombre" name="PrimerNombre" required>
+                <label for="PrimerNombre">Nombres:</label>
+                <input type="text" id="PrimerNombre" name="PrimerNombre" pattern="[A-Za-záéíóúÁÉÍÓÚÑñ\s]+" required>
 
-                <label for="PrimerApellido">Primer Apellido:</label>
-                <input type="text" id="PrimerApellido" name="PrimerApellido" required>
+                <label for="PrimerApellido">Apellidos:</label>
+                <input type="text" id="PrimerApellido" name="PrimerApellido" pattern="[A-Za-záéíóúÁÉÍÓÚÑñ\s]+" required>
 
                 <label for="Departamento">Departamento:</label>
                 <input type="text" id="Departamento" name="Departamento" required>
@@ -89,7 +125,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <input type="text" id="Municipio" name="Municipio" required>
 
                 <label for="Telefono">Teléfono:</label>
-                <input type="tel" id="Telefono" name="Telefono" required>
+                <input type="tel" id="Telefono" name="Telefono" pattern="[0-9]{8,10}" required>
             </div>
             <div class="column">
                 <label for="SegundoNombre">Segundo Nombre:</label>
@@ -108,10 +144,34 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <input type="email" id="email" name="email" required>
             </div>
             <div class="buttons">
-                <button type="reset">Cancelar</button>
+                <button type="button" onclick="location.href='MenuBotones.php'">Cancelar</button>
                 <button type="submit">Registrar</button>
             </div>
         </form>
+
+        <!-- Mensaje de éxito o error -->
+        <div id="messageBox" class="message-box">
+            <?php
+            if (isset($successMessage)) {
+                echo $successMessage;
+            } elseif (isset($errorMessage)) {
+                echo $errorMessage;
+            }
+            ?>
+        </div>
     </div>
+
+    <script>
+        // Mostrar el mensaje emergente
+        window.onload = function() {
+            var messageBox = document.getElementById('messageBox');
+            if (messageBox.innerText.trim() !== "") {
+                messageBox.classList.add('show');
+                setTimeout(function() {
+                    messageBox.classList.remove('show');
+                }, 3000); // El mensaje se desvanece después de 3 segundos
+            }
+        };
+    </script>
 </body>
 </html>

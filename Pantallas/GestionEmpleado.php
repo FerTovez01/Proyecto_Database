@@ -5,7 +5,6 @@ set_include_path(get_include_path() . PATH_SEPARATOR . 'C:\xampp\htdocs\Proyecto
 
 
 
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -17,7 +16,7 @@ set_include_path(get_include_path() . PATH_SEPARATOR . 'C:\xampp\htdocs\Proyecto
 <body>
     <header>
         <div class="logo">
-            <img src="../img/bf.png" alt="Logo">
+            <img src="../img/bf2.png" alt="Logo">
         </div>
         <button type="button" onclick="location.href='MenuBotones.php'">Volver</button>
     </header>

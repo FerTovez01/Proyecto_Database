@@ -1,26 +1,27 @@
 <?php
 // Incluir el archivo de conexión
-include '../php/conexion.php'; // Ajusta la ruta según la ubicación de 'conexion.php'
+include '../php/conexion.php';
 
 // Consulta SQL para obtener los datos de los clientes
 $sql = "SELECT Cliente.idCliente, Cliente.Fecha_Registro, 
                Persona.primer_Nombre, Persona.segundo_Nombre, Persona.primer_Apellido, 
-               Persona.segundo_Apellido, Persona.Telefono_idTelefono, Persona.Correo,
-               Persona.Direccion_Persona_idDireccion_Persona
+               Persona.segundo_Apellido, Persona.Correo, 
+               Telefono.Numero AS Telefono,
+               direccion_persona.Departamento, direccion_persona.Municipio, 
+               direccion_persona.Colonia_barrio AS Colonia, direccion_persona.Calle
         FROM Cliente
-        INNER JOIN Persona ON Cliente.Persona_idPersona = Persona.idPersona";
+        INNER JOIN Persona ON Cliente.Persona_idPersona = Persona.idPersona
+        INNER JOIN Telefono ON Persona.Telefono_idTelefono = Telefono.idTelefono
+        INNER JOIN direccion_persona ON Persona.Direccion_Persona_idDireccion_Persona = direccion_persona.idDireccion_Persona";
 
-// Verificar si la conexión fue exitosa
 if ($conexion) {
-    // Ejecutar la consulta
     $resultado = $conexion->query($sql);
 
-    // Verificar si la consulta devolvió resultados
     if (!$resultado) {
-        die("Error al ejecutar la consulta: " . $conexion->error); // Si hay un error en la consulta, lo mostramos
+        die("Error al ejecutar la consulta: " . $conexion->error);
     }
 } else {
-    die("Error de conexión: " . $conexion->connect_error); // Mostrar error si no hay conexión
+    die("Error de conexión: " . $conexion->connect_error);
 }
 ?>
 
@@ -31,11 +32,14 @@ if ($conexion) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lista de Clientes</title>
     <link rel="stylesheet" href="styles3.css">
+    <!-- Incluir la CDN de Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
+
 <body>
     <header>
         <div class="logo">
-            <img src="../img/bf.png" alt="Logo">
+            <img src="../img/bf2.png" alt="Logo">
         </div>
         <button type="button" onclick="location.href='MenuBotones.php'">Volver</button>
     </header>
@@ -47,26 +51,42 @@ if ($conexion) {
                     <th>ID Cliente</th>
                     <th>Nombres</th>
                     <th>Apellidos</th>
+                    <th>Departamento</th>
+                    <th>Municipio</th>
+                    <th>Colonia</th>
+                    <th>Calle</th>
                     <th>Teléfono</th>
                     <th>Correo</th>
+                    <th>Acciones</th>
                 </tr>
             </thead>
             <tbody>
                 <?php
-                // Verificar si la consulta devuelve resultados
                 if ($resultado && $resultado->num_rows > 0) {
-                    // Recorrer los resultados y mostrarlos en la tabla
                     while ($row = $resultado->fetch_assoc()) {
                         echo "<tr>
                                 <td>" . $row["idCliente"] . "</td>
                                 <td>" . $row["primer_Nombre"] . " " . $row["segundo_Nombre"] . "</td>
                                 <td>" . $row["primer_Apellido"] . " " . $row["segundo_Apellido"] . "</td>
-                                <td>" . $row["Telefono_idTelefono"] . "</td>
+                                <td>" . $row["Departamento"] . "</td>
+                                <td>" . $row["Municipio"] . "</td>
+                                <td>" . $row["Colonia"] . "</td>
+                                <td>" . $row["Calle"] . "</td>
+                                <td>" . $row["Telefono"] . "</td>
                                 <td>" . $row["Correo"] . "</td>
-                            </tr>";
+                                <td>
+                                <a href='UpdateCliente.php?id=" . $row['idCliente'] . "' class='accion' style='color: #833576;'>
+                                <i class='fas fa-edit'></i> 
+                                </a>  
+                                    | 
+                                    <a href='DeleteCliente.php?id=" . $row['idCliente'] . "' onclick='return confirm(\"¿Estás seguro de eliminar este cliente?\")' style='color: #833576;'>
+                                        <i class='fas fa-trash-alt'></i> 
+                                    </a>
+                                </td>
+                              </tr>";
                     }
                 } else {
-                    echo "<tr><td colspan='5'>No hay clientes registrados.</td></tr>";
+                    echo "<tr><td colspan='10'>No hay clientes registrados.</td></tr>";
                 }
                 ?>
             </tbody>
@@ -79,7 +99,6 @@ if ($conexion) {
 </html>
 
 <?php
-// Cerrar la conexión solo si está establecida
 if ($conexion) {
     $conexion->close();
 }

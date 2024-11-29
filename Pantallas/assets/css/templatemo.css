@@ -225,3 +225,27 @@ button[type="submit"] {
 button:hover {
   opacity: 0.9;
 }
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #E1E1E1;
+  padding: 10px 20px;
+  color: white;
+}
+
+.logo img {
+  height: 60px;
+}
+
+.header-button {
+  background-color: #fff;
+  color: #723968;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.header-button:hover {
+  background-color: #723968;
+}

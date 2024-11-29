@@ -1,8 +1,8 @@
-
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
+
     <title>Bella Fusión</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -138,17 +138,17 @@
             <div class="col-12 col-md-4 p-5 mt-3">
                 <a href="#"><img src="./assets/img1/bf03.jpg" class="rounded-circle img-fluid border"></a>
                 <h5 class="text-center mt-3 mb-3">Rare Beauty Soft Pinch Blush Mini</h5>
-                <p class="text-center"><a class="btn btn-success">Comprar</a></p>
+                <p class="text-center"><a class="btn btn-success">Agregar al carrito</a></p>
             </div>
             <div class="col-12 col-md-4 p-5 mt-3">
                 <a href="#"><img src="./assets/img1/bf04.jpeg" class="rounded-circle img-fluid border"></a>
                 <h2 class="h5 text-center mt-3 mb-3">Legit Lashes Mascara</h2>
-                <p class="text-center"><a class="btn btn-success">Comprar</a></p>
+                <p class="text-center"><a class="btn btn-success">Agregar al carrito</a></p>
             </div>
             <div class="col-12 col-md-4 p-5 mt-3">
                 <a href="#"><img src="./assets/img1/bf05.jpg" class="rounded-circle img-fluid border"></a>
                 <h2 class="h5 text-center mt-3 mb-3">Gloss Maybelline</h2>
-                <p class="text-center"><a class="btn btn-success">Comprar</a></p>
+                <p class="text-center"><a class="btn btn-success">Agregar al carrito</a></p>
             </div>
 
         </div>
@@ -236,7 +236,7 @@
                     </div>
                 </div>
                 <div>
-                    <button>Crear Pedido</button>
+                <button type="button" onclick="location.href='CrearPedido.php'">Agregar al carrito</button>
                 </div>
             </div>
         </div>

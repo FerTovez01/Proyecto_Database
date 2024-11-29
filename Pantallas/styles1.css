@@ -9,7 +9,7 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #5d2f54;
+    background-color: #fffeff;
     padding: 10px 20px;
     color: white;
 }
@@ -100,4 +100,12 @@ button[type="submit"] {
 
 button:hover {
     opacity: 0.9;
+}
+.accion {
+    color: purple;  /* Color morado */
+    text-decoration: none;  /* Elimina el subrayado */
+}
+
+.accion:hover {
+    color: darkviolet;  /* Color morado más oscuro al pasar el ratón */
 }

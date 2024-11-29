@@ -1,8 +1,8 @@
 <?php 
+
 set_include_path(get_include_path() . PATH_SEPARATOR . 'C:\xampp\htdocs\ProyectoWeb\php');
 
 ?>
-
 
 <!DOCTYPE html>
 <html lang="es">
@@ -15,7 +15,7 @@ set_include_path(get_include_path() . PATH_SEPARATOR . 'C:\xampp\htdocs\Proyecto
 <body>
     <header>
         <div class="logo">
-            <img src="../img/bf.png" alt="Logo">
+            <img src="../img/bf2.png" alt="Logo">
         </div>
         <button type="button" onclick="location.href='MenuBotones.php'">Volver</button>
     </header>
@@ -32,9 +32,7 @@ set_include_path(get_include_path() . PATH_SEPARATOR . 'C:\xampp\htdocs\Proyecto
             </thead>
             <tbody>
                 <tr>
-                    <td>01</td>
-                    <td>Labial</td>
-                    <td>Cuidado de los labios</td>
+
                 </tr>
             </tbody>
             <div class="buttons" >

@@ -65,7 +65,7 @@ set_include_path(get_include_path() . PATH_SEPARATOR . 'C:\xampp\htdocs\Proyecto
             <table id="detalleFactura">
                 <thead>
                     <tr>
-                        <th>Producto/Servicio</th>
+                        <th>Producto</th>
                         <th>Cantidad</th>
                         <th>Precio Unitario</th>
                         <th>Subtotal</th>
@@ -82,7 +82,7 @@ set_include_path(get_include_path() . PATH_SEPARATOR . 'C:\xampp\htdocs\Proyecto
             </table>
 
             <div class="button">
-                <button type="button" onclick="agregarFila()">Agregar Producto/Servicio</button>
+                <button type="button" onclick="agregarFila()">Agregar Producto</button>
             </div>
 
             <div class="total">

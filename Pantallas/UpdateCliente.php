@@ -2,21 +2,24 @@
 // Incluir el archivo de conexión
 include '../php/conexion.php';
 
-// Verificar si existe el parámetro 'id'
+$mensajeExito = ''; // Variable para manejar el mensaje
+$mensajeError = '';  // Variable para manejar el mensaje de error
+
 if (isset($_GET['id'])) {
-    $idCliente = $_GET['id'];
-    
+    $idCliente = intval($_GET['id']); // Convertir a entero para mayor seguridad
+
     // Consulta SQL para obtener los datos del cliente
     $sql = "SELECT Cliente.idCliente, Cliente.Fecha_Registro, 
-                   Persona.primer_Nombre, Persona.segundo_Nombre, 
+                   Persona.idPersona, Persona.primer_Nombre, Persona.segundo_Nombre, 
                    Persona.primer_Apellido, Persona.segundo_Apellido, Persona.Correo, 
-                   Telefono.Numero AS Telefono,
-                   Direccion_Persona.Departamento, Direccion_Persona.Municipio, 
-                   Direccion_Persona.Colonia_barrio AS Colonia, Direccion_Persona.Calle
+                   Telefono.idTelefono, Telefono.Numero AS Telefono,
+                   Direccion_Persona.idDireccion_Persona, Direccion_Persona.Departamento, 
+                   Direccion_Persona.Municipio, Direccion_Persona.Colonia_barrio AS Colonia, 
+                   Direccion_Persona.Calle
             FROM Cliente
             INNER JOIN Persona ON Cliente.Persona_idPersona = Persona.idPersona
-            INNER JOIN Telefono ON Persona.Telefono_idTelefono = Telefono.idTelefono
-            INNER JOIN Direccion_Persona ON Persona.Direccion_Persona_idDireccion_Persona = direccion_persona.idDireccion_Persona
+            INNER JOIN Telefono ON Persona.idPersona = Telefono.Persona_idPersona
+            INNER JOIN Direccion_Persona ON Persona.idPersona = Direccion_Persona.Persona_idPersona
             WHERE Cliente.idCliente = $idCliente";
 
     $resultado = $conexion->query($sql);
@@ -24,53 +27,62 @@ if (isset($_GET['id'])) {
     if ($resultado && $resultado->num_rows > 0) {
         $cliente = $resultado->fetch_assoc();
     } else {
-        echo "Cliente no encontrado.";
-        exit;
+        die("Cliente no encontrado.");
     }
 } else {
-    echo "ID no proporcionado.";
-    exit;
+    die("ID no proporcionado.");
 }
 
-// Verifica si el formulario ha sido enviado
+// Si el formulario fue enviado
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    // Obtener los datos del formulario
-    $primerNombre = $_POST['primerNombre'];
-    $segundoNombre = $_POST['segundoNombre'];
-    $primerApellido = $_POST['primerApellido'];
-    $segundoApellido = $_POST['segundoApellido'];
-    $correo = $_POST['correo'];
-    $telefono = $_POST['telefono'];
-    $departamento = $_POST['departamento'];
-    $municipio = $_POST['municipio'];
-    $colonia = $_POST['colonia'];
-    $calle = $_POST['calle'];
+    // Obtener y limpiar datos del formulario
+    $primerNombre = $conexion->real_escape_string($_POST['primerNombre']);
+    $segundoNombre = $conexion->real_escape_string($_POST['segundoNombre']);
+    $primerApellido = $conexion->real_escape_string($_POST['primerApellido']);
+    $segundoApellido = $conexion->real_escape_string($_POST['segundoApellido']);
+    $correo = $conexion->real_escape_string($_POST['correo']);
+    $telefono = $conexion->real_escape_string($_POST['telefono']);
+    $departamento = $conexion->real_escape_string($_POST['departamento']);
+    $municipio = $conexion->real_escape_string($_POST['municipio']);
+    $colonia = $conexion->real_escape_string($_POST['colonia']);
+    $calle = $conexion->real_escape_string($_POST['calle']);
 
-    // Actualizar los datos en la base de datos
-    $updatePersona = "UPDATE Persona SET 
+    // Iniciar transacción
+    $conexion->begin_transaction();
+
+    try {
+        // Actualizar Persona
+        $sqlPersona = "UPDATE Persona SET 
                         primer_Nombre = '$primerNombre', 
                         segundo_Nombre = '$segundoNombre', 
                         primer_Apellido = '$primerApellido', 
                         segundo_Apellido = '$segundoApellido', 
                         Correo = '$correo'
-                    WHERE idPersona = (SELECT Persona_idPersona FROM Cliente WHERE idCliente = $idCliente)";
+                      WHERE idPersona = {$cliente['idPersona']}";
+        $conexion->query($sqlPersona);
 
-    $updateTelefono = "UPDATE Telefono SET 
+        // Actualizar Teléfono
+        $sqlTelefono = "UPDATE Telefono SET 
                         Numero = '$telefono' 
-                      WHERE idTelefono = (SELECT Telefono_idTelefono FROM Persona WHERE idPersona = (SELECT Persona_idPersona FROM Cliente WHERE idCliente = $idCliente))";
+                      WHERE Persona_idPersona = {$cliente['idPersona']}";
+        $conexion->query($sqlTelefono);
 
-    $updateDireccion = "UPDATE direccion_persona SET 
+        // Actualizar Dirección
+        $sqlDireccion = "UPDATE Direccion_Persona SET 
                         Departamento = '$departamento', 
                         Municipio = '$municipio', 
                         Colonia_barrio = '$colonia', 
                         Calle = '$calle'
-                    WHERE idDireccion_Persona = (SELECT Direccion_Persona_idDireccion_Persona FROM Persona WHERE idPersona = (SELECT Persona_idPersona FROM Cliente WHERE idCliente = $idCliente))";
+                      WHERE Persona_idPersona = {$cliente['idPersona']}";
+        $conexion->query($sqlDireccion);
 
-    // Ejecutar las consultas de actualización
-    if ($conexion->query($updatePersona) && $conexion->query($updateTelefono) && $conexion->query($updateDireccion)) {
-        echo "Cliente actualizado exitosamente.";
-    } else {
-        echo "Error al actualizar el cliente: " . $conexion->error;
+        // Confirmar transacción
+        $conexion->commit();
+        $mensajeExito = "Cliente actualizado exitosamente."; // Mensaje de éxito
+    } catch (Exception $e) {
+        // Revertir transacción en caso de error
+        $conexion->rollback();
+        $mensajeError = "Error al actualizar el cliente: " . $e->getMessage(); // Mensaje de error
     }
 }
 ?>
@@ -82,12 +94,37 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Editar Cliente</title>
     <link rel="stylesheet" href="styles5.css">
-    
+
+    <style>
+        /* Estilo del mensaje flotante */
+        .message-box {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: #833576;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            display: none;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+            z-index: 9999;
+        }
+
+        .message-box.error {
+            background-color: #dc3545;
+        }
+
+        .message-box.show {
+            display: block;
+            opacity: 1;
+        }
+    </style>
 </head>
 <body>
     <h1>Editar Cliente</h1>
 
-    
     <!-- Formulario de edición de cliente -->
     <form action="" method="POST">
         <label for="primerNombre">Primer Nombre:</label>
@@ -122,16 +159,33 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         <input type="submit" value="Guardar Cambios">
         
-       <div>
-        <button type="button" onclick="location.href='ClienteLista.php'">Volver</button>
-</div>
+        <div>
+            <button type="button" onclick="location.href='ClienteLista.php'">Volver</button>
+        </div>
     </form>
-    
+
+    <!-- Mensaje de éxito o error -->
+    <div id="messageBox" class="message-box <?php echo $mensajeError ? 'error' : ''; ?>">
+        <?php
+        if ($mensajeExito) {
+            echo $mensajeExito;
+        } elseif ($mensajeError) {
+            echo $mensajeError;
+        }
+        ?>
+    </div>
+
+    <script>
+        // Mostrar el mensaje emergente
+        window.onload = function() {
+            var messageBox = document.getElementById('messageBox');
+            if (messageBox.innerText.trim() !== "") {
+                messageBox.classList.add('show');
+                setTimeout(function() {
+                    messageBox.classList.remove('show');
+                }, 3000); // El mensaje se desvanece después de 3 segundos
+            }
+        };
+    </script>
 </body>
 </html>
-
-<?php
-// Cerrar la conexión
-$conexion->close();
-?>
-

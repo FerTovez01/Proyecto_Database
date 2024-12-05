@@ -4,15 +4,16 @@ include '../php/conexion.php';
 
 // Consulta SQL para obtener los datos de los clientes
 $sql = "SELECT Cliente.idCliente, Cliente.Fecha_Registro, 
-               Persona.primer_Nombre, Persona.segundo_Nombre, Persona.primer_Apellido, 
-               Persona.segundo_Apellido, Persona.Correo, 
+               Persona.primer_Nombre, Persona.segundo_Nombre, 
+               Persona.primer_Apellido, Persona.segundo_Apellido, 
+               Persona.Correo, 
                Telefono.Numero AS Telefono,
                direccion_persona.Departamento, direccion_persona.Municipio, 
                direccion_persona.Colonia_barrio AS Colonia, direccion_persona.Calle
         FROM Cliente
         INNER JOIN Persona ON Cliente.Persona_idPersona = Persona.idPersona
-        INNER JOIN Telefono ON Persona.Telefono_idTelefono = Telefono.idTelefono
-        INNER JOIN direccion_persona ON Persona.Direccion_Persona_idDireccion_Persona = direccion_persona.idDireccion_Persona";
+        LEFT JOIN Telefono ON Telefono.Persona_idPersona = Persona.idPersona
+        LEFT JOIN direccion_persona ON direccion_persona.Persona_idPersona = Persona.idPersona";
 
 if ($conexion) {
     $resultado = $conexion->query($sql);
@@ -68,19 +69,19 @@ if ($conexion) {
                                 <td>" . $row["idCliente"] . "</td>
                                 <td>" . $row["primer_Nombre"] . " " . $row["segundo_Nombre"] . "</td>
                                 <td>" . $row["primer_Apellido"] . " " . $row["segundo_Apellido"] . "</td>
-                                <td>" . $row["Departamento"] . "</td>
-                                <td>" . $row["Municipio"] . "</td>
-                                <td>" . $row["Colonia"] . "</td>
-                                <td>" . $row["Calle"] . "</td>
-                                <td>" . $row["Telefono"] . "</td>
+                                <td>" . ($row["Departamento"] ?? "N/A") . "</td>
+                                <td>" . ($row["Municipio"] ?? "N/A") . "</td>
+                                <td>" . ($row["Colonia"] ?? "N/A") . "</td>
+                                <td>" . ($row["Calle"] ?? "N/A") . "</td>
+                                <td>" . ($row["Telefono"] ?? "N/A") . "</td>
                                 <td>" . $row["Correo"] . "</td>
                                 <td>
-                                <a href='UpdateCliente.php?id=" . $row['idCliente'] . "' class='accion' style='color: #833576;'>
-                                <i class='fas fa-edit'></i> 
-                                </a>  
+                                    <a href='UpdateCliente.php?id=" . $row['idCliente'] . "' class='accion' style='color: #833576;'>
+                                        <i class='fas fa-edit'></i>
+                                    </a>  
                                     | 
                                     <a href='DeleteCliente.php?id=" . $row['idCliente'] . "' onclick='return confirm(\"¿Estás seguro de eliminar este cliente?\")' style='color: #833576;'>
-                                        <i class='fas fa-trash-alt'></i> 
+                                        <i class='fas fa-trash-alt'></i>
                                     </a>
                                 </td>
                               </tr>";

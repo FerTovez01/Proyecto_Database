@@ -2,7 +2,7 @@
 $server = "localhost";
 $user = "root";
 $pass="";
-$DB="inventariodb";
+$DB="bella_fusion_db";
 
 $conexion = new mysqli ($server, $user,$pass,$DB);
 

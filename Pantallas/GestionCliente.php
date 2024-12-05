@@ -22,23 +22,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $conexion->begin_transaction();
 
     try {
-        // Insertar teléfono
-        $sqlTelefono = "INSERT INTO Telefono (Numero) VALUES ('$telefono')";
-        if ($conexion->query($sqlTelefono) === TRUE) {
-            $idTelefono = $conexion->insert_id;
+        // Insertar persona
+        $sqlPersona = "INSERT INTO Persona (primer_Nombre, segundo_Nombre, primer_Apellido, segundo_Apellido, Correo) 
+                       VALUES ('$primerNombre', '$segundoNombre', '$primerApellido', '$segundoApellido', '$correo')";
+        if ($conexion->query($sqlPersona) === TRUE) {
+            $idPersona = $conexion->insert_id;
 
-            // Insertar dirección
-            $sqlDireccion = "INSERT INTO direccion_persona (Calle, Colonia_barrio, Municipio, Departamento) 
-                             VALUES ('$calle', '$colonia', '$municipio', '$departamento')";
-            if ($conexion->query($sqlDireccion) === TRUE) {
-                $idDireccion = $conexion->insert_id;
-
-                // Insertar persona
-                $sqlPersona = "INSERT INTO Persona (primer_Nombre, segundo_Nombre, primer_Apellido, segundo_Apellido, Telefono_idTelefono, Correo, Direccion_Persona_idDireccion_Persona) 
-                               VALUES ('$primerNombre', '$segundoNombre', '$primerApellido', '$segundoApellido', '$idTelefono', '$correo', '$idDireccion')";
-                if ($conexion->query($sqlPersona) === TRUE) {
-                    $idPersona = $conexion->insert_id;
-
+            // Insertar teléfono relacionado con la persona
+            $sqlTelefono = "INSERT INTO Telefono (Numero, Persona_idPersona) VALUES ('$telefono', '$idPersona')";
+            if ($conexion->query($sqlTelefono) === TRUE) {
+                // Insertar dirección relacionada con la persona
+                $sqlDireccion = "INSERT INTO direccion_persona (Calle, Colonia_barrio, Municipio, Departamento, Persona_idPersona) 
+                                 VALUES ('$calle', '$colonia', '$municipio', '$departamento', '$idPersona')";
+                if ($conexion->query($sqlDireccion) === TRUE) {
                     // Insertar cliente
                     $fechaRegistro = date("Y-m-d H:i:s");
                     $sqlCliente = "INSERT INTO Cliente (Persona_idPersona, Fecha_Registro) 
@@ -51,16 +47,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         throw new Exception("Error al registrar cliente: " . $conexion->error);
                     }
                 } else {
-                    throw new Exception("Error al registrar persona: " . $conexion->error);
+                    throw new Exception("Error al registrar dirección: " . $conexion->error);
                 }
             } else {
-                throw new Exception("Error al registrar dirección: " . $conexion->error);
+                throw new Exception("Error al registrar teléfono: " . $conexion->error);
             }
         } else {
-            throw new Exception("Error al registrar teléfono: " . $conexion->error);
+            throw new Exception("Error al registrar persona: " . $conexion->error);
         }
     } catch (Exception $e) {
-        // Si ocurre un error, revertir todas las operaciones
+        // Revertir todas las operaciones si ocurre un error
         $conexion->rollback();
         $errorMessage = "Error: " . $e->getMessage();
     }
@@ -112,10 +108,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <h1>Gestión de Clientes</h1>
         <form method="POST" action="GestionCliente.php">
             <div class="column">
-                <label for="PrimerNombre">Nombres:</label>
+                <label for="PrimerNombre">Primer Nombre:</label>
                 <input type="text" id="PrimerNombre" name="PrimerNombre" pattern="[A-Za-záéíóúÁÉÍÓÚÑñ\s]+" required>
 
-                <label for="PrimerApellido">Apellidos:</label>
+                <label for="PrimerApellido">Primer Apellido:</label>
                 <input type="text" id="PrimerApellido" name="PrimerApellido" pattern="[A-Za-záéíóúÁÉÍÓÚÑñ\s]+" required>
 
                 <label for="Departamento">Departamento:</label>

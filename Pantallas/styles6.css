@@ -1,0 +1,186 @@
+/* Establecer un fondo claro y espaciar los elementos */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f7f7f7;
+    color: #333;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* Estilo para el contenedor principal */
+.container {
+    width: 60%;  /* Puedes ajustar el tamaño del formulario */
+    max-width: 800px; /* Limita el tamaño máximo */
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    box-sizing: border-box;
+    overflow: hidden; /* Evita que el contenido se desborde */
+    text-align: center; /* Centra el contenido dentro del contenedor */
+}
+
+/* Encabezado */
+h2 {
+    color: #6a0dad; /* Morado */
+    margin-bottom: 20px;
+    font-size: 24px;
+}
+
+/* Estilo para los labels */
+label {
+    font-size: 16px;
+    color: #333;
+    margin-bottom: 10px;
+    display: block;
+    text-align: left; /* Centra el texto dentro del label */
+}
+
+/* Estilo para los campos de entrada */
+input[type="text"], input[type="number"], select {
+    width: 100%;
+    padding: 10px;
+    margin: 8px 0;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+    text-align: center; /* Centra el texto dentro del campo */
+}
+
+/* Colores para el fondo y texto en select y input */
+select, input[type="text"], input[type="number"] {
+    background-color: #fff;
+    color: #6a0dad; /* Morado */
+}
+
+/* Colores para los select cuando están en foco */
+select:focus, input[type="text"]:focus, input[type="number"]:focus {
+    border-color: #6a0dad;
+    outline: none;
+    box-shadow: 0 0 8px rgba(106, 13, 173, 0.3); /* Efecto morado al seleccionar */
+}
+
+/* Estilo de la tabla de productos */
+table {
+    width: 100%;
+    margin-top: 20px;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 10px;
+    text-align: center; /* Centra el texto dentro de las celdas */
+    border-bottom: 1px solid #ddd;
+}
+
+th {
+    background-color: #6a0dad;
+    color: white;
+}
+
+/* Estilo para las filas de la tabla */
+tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+/* Estilo para el botón de "Agregar Producto" */
+button {
+    background-color: #6a0dad; /* Morado */
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #5c0db3; /* Un morado más oscuro */
+}
+
+/* Estilo para los botones de Cancelar y Enviar */
+button[type="reset"], button[type="submit"] {
+    background-color: #ddd;
+    color: #333;
+    margin: 10px;
+}
+
+button[type="reset"]:hover, button[type="submit"]:hover {
+    background-color: #bbb;
+}
+
+/* Estilo para el campo de Total */
+.total {
+    margin-top: 20px;
+    text-align: right;
+}
+
+.total input {
+    font-size: 18px;
+    font-weight: bold;
+    padding: 10px;
+    background-color: #f4f4f4;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    width: 150px;
+    text-align: right;
+}
+
+/* Estilo para el formulario */
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centra los elementos dentro del formulario */
+}
+
+/* Estilo para los contenedores de cada sección */
+label, select, input {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+/* Estilo para los botones de acción */
+.buttons {
+    text-align: center;
+    margin-top: 20px;
+}
+
+/* Estilo del formulario de cliente */
+#clienteInfo {
+    margin-top: 20px;
+    font-size: 16px;
+    color: #333;
+    font-weight: bold;
+}
+
+/* Estilo para los productos y clientes seleccionados */
+#productoInfo {
+    margin-top: 10px;
+    font-size: 14px;
+    color: #333;
+}
+
+/* Mejorar la experiencia en dispositivos móviles */
+@media (max-width: 768px) {
+    .container {
+        width: 90%;
+        padding: 15px;
+    }
+
+    table {
+        font-size: 14px;
+    }
+
+    input[type="text"], input[type="number"], select {
+        font-size: 14px;
+    }
+
+    .total input {
+        width: 100%;
+    }
+}

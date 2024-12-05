@@ -127,3 +127,57 @@ label[type="total"] {
 .accion:hover {
     color: darkviolet;  /* Color morado más oscuro al pasar el ratón */
 }
+
+/* Estilo para el contenedor del formulario */
+.container {
+    margin: 20px;
+}
+
+/* Estilo para el label */
+label {
+    display: block; /* Asegura que el label esté en una línea separada */
+    margin-bottom: 5px; /* Un pequeño margen debajo del label */
+    font-size: 16px; /* Tamaño de fuente del label */
+    color: #333; /* Color del texto */
+}
+
+/* Estilo para el select */
+select {
+    appearance: none; /* Elimina el estilo predeterminado del navegador */
+    -webkit-appearance: none; /* Para navegadores webkit */
+    -moz-appearance: none; /* Para Firefox */
+    width: 100%; /* Para que ocupe todo el ancho disponible */
+    padding: 10px; /* Espaciado interno */
+    margin: 5px 0; /* Margen para separar de otros elementos */
+    border: 1px solid #ccc; /* Borde gris claro */
+    border-radius: 4px; /* Bordes redondeados */
+    background-color: #f9f9f9; /* Fondo suave */
+    font-size: 16px; /* Tamaño de fuente */
+    color: #333; /* Color de texto */
+    cursor: pointer; /* Cambiar el cursor al pasar sobre el select */
+    transition: all 0.3s ease; /* Transición para efectos */
+}
+
+/* Estilo para cuando el select está en foco (cuando está siendo usado) */
+select:focus {
+    border-color: #4CAF50; /* Cambia el borde cuando está enfocado */
+    background-color: #fff; /* Cambia el fondo a blanco cuando está enfocado */
+    outline: none; /* Elimina el borde de enfoque predeterminado */
+}
+
+/* Estilo para la flecha personalizada */
+select::-ms-expand {
+    display: none; /* Oculta la flecha predeterminada en IE */
+}
+
+/* Estilo para las opciones */
+option {
+    padding: 10px; /* Espaciado interno de las opciones */
+    background-color: #fff; /* Fondo blanco para las opciones */
+    color: #333; /* Color de texto */
+}
+
+/* Efecto hover sobre las opciones */
+option:hover {
+    background-color: #f1f1f1; /* Cambia el fondo al pasar sobre las opciones */
+}

@@ -109,3 +109,34 @@ button:hover {
 .accion:hover {
     color: darkviolet;  /* Color morado más oscuro al pasar el ratón */
 }
+
+
+/* Estilización para el campo select (Cargo) */
+select#Cargo {
+    padding: 10px;              /* Espaciado dentro del select */
+    width: 100%;                /* Ocupa todo el ancho disponible */
+    font-size: 16px;            /* Tamaño de fuente */
+    border: 1px solid #ccc;    /* Borde gris claro */
+    border-radius: 5px;        /* Bordes redondeados */
+    background-color: #f9f9f9; /* Fondo blanco con sombra */
+    transition: all 0.3s ease; /* Transición suave para el cambio de estado */
+}
+
+/* Cambiar color de borde cuando el campo está en foco */
+select#Cargo:focus {
+    border-color: #4CAF50; /* Borde verde cuando está enfocado */
+    outline: none;         /* Eliminar el contorno predeterminado */
+    background-color: #e0f7e0; /* Fondo verde claro cuando está enfocado */
+}
+
+/* Estilo de las opciones del select */
+select#Cargo option {
+    padding: 10px;            /* Espaciado interno para cada opción */
+    font-size: 16px;          /* Tamaño de fuente de las opciones */
+}
+
+/* Estilo para las opciones seleccionadas */
+select#Cargo option:checked {
+    background-color: #4CAF50; /* Fondo verde para opción seleccionada */
+    color: white;              /* Texto blanco para la opción seleccionada */
+}

@@ -11,6 +11,70 @@
     <link rel="stylesheet" href="assets/css/templatemo.css">
     <link rel="stylesheet" href="assets/css/custom.css">
 
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+
+    <style>
+        .custom-modal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #4caf50;
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            font-size: 18px;
+            text-align: center;
+        }
+
+        .custom-modal.show {
+            display: block;
+        }
+
+        .modal-header {
+            border-bottom: none;
+        }
+
+        .modal-body {
+            text-align: center;
+        }
+
+        .modal-footer {
+            border-top: none;
+            justify-content: center;
+        }
+
+        .modal-footer .btn {
+            background-color: #833576;
+            color: white;
+        }
+
+        /* Estilos para mostrar el corazón y el carrito */
+        .product-img {
+            position: relative;
+            display: inline-block;
+        }
+
+        .product-icons {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .product-img:hover .product-icons {
+            opacity: 1;
+        }
+
+        .product-icons i {
+            font-size: 30px;
+            color: #833576;
+            margin-right: 10px;
+        }
+    </style>
 
 </head>
 
@@ -125,133 +189,207 @@
     </div>
     <!-- End Banner Hero -->
 
+     <!-- Modal for success message -->
+     <div class="custom-modal" id="successModal">
+        Producto agregado con éxito al carrito o a favoritos!
+    </div>
 
-    <!-- Start Categories of The Month -->
+ <!-- Start Categories of The Month -->
     <section class="container py-5">
         <div class="row text-center pt-3">
             <div class="col-lg-6 m-auto">
-                <h1 class="h1">Imprescindible tener </h1>
+                <h1 class="h1">Imprescindible tener</h1>
                 <p></p>
             </div>
         </div>
         <div class="row">
             <div class="col-12 col-md-4 p-5 mt-3">
-                <a href="#"><img src="./assets/img1/bf03.jpg" class="rounded-circle img-fluid border"></a>
+                <div class="product-img">
+                    <a href="#"><img src="./assets/img1/bf03.jpg" class="rounded-circle img-fluid border"></a>
+                    <div class="product-icons">
+                        <i class="fas fa-heart"></i>
+                        <i class="fas fa-shopping-cart" onclick="window.location.href='GenerarFactura.php';"></i>
+                    </div>
+                </div>
                 <h5 class="text-center mt-3 mb-3">Rare Beauty Soft Pinch Blush Mini</h5>
-                <p class="text-center"><a class="btn btn-success">Agregar al carrito</a></p>
+               
             </div>
             <div class="col-12 col-md-4 p-5 mt-3">
-                <a href="#"><img src="./assets/img1/bf04.jpeg" class="rounded-circle img-fluid border"></a>
+                <div class="product-img">
+                    <a href="#"><img src="./assets/img1/bf04.jpeg" class="rounded-circle img-fluid border"></a>
+                    <div class="product-icons">
+                        <i class="fas fa-heart"></i>
+                        <i class="fas fa-shopping-cart" onclick="window.location.href='GenerarFactura.php';"></i>
+                    </div>
+                </div>
                 <h2 class="h5 text-center mt-3 mb-3">Legit Lashes Mascara</h2>
-                <p class="text-center"><a class="btn btn-success">Agregar al carrito</a></p>
+                
             </div>
             <div class="col-12 col-md-4 p-5 mt-3">
-                <a href="#"><img src="./assets/img1/bf05.jpg" class="rounded-circle img-fluid border"></a>
+                <div class="product-img">
+                    <a href="#"><img src="./assets/img1/bf05.jpg" class="rounded-circle img-fluid border"></a>
+                    <div class="product-icons">
+                        <i class="fas fa-heart"></i>
+                        <i class="fas fa-shopping-cart" onclick="window.location.href='GenerarFactura.php';"></i>
+                    </div>
+                </div>
                 <h2 class="h5 text-center mt-3 mb-3">Gloss Maybelline</h2>
-                <p class="text-center"><a class="btn btn-success">Agregar al carrito</a></p>
-            </div>
-
-        </div>
-    </section>
-
-    <section class="bg-light">
-        <div class="container py-5">
-            <div class="row text-center py-3">
-                <div class="col-lg-6 m-auto">
-                    <h1 class="h1">Los Favoritos</h1>
-                    <p></p>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-12 col-md-4 mb-4">
-                    <div class="card h-100">
-                        <a href="shop-single.html">
-                            <img src="./assets/img1/bf06.jpeg" class="card-img-top" alt="...">
-                        </a>
-                        <div class="card-body">
-                            <ul class="list-unstyled d-flex justify-content-between">
-                                <li>
-                                    <i class="text-warning fa fa-star"></i>
-                                    <i class="text-warning fa fa-star"></i>
-                                    <i class="text-warning fa fa-star"></i>
-                                    <i class="text-muted fa fa-star"></i>
-                                    <i class="text-muted fa fa-star"></i>
-                                </li>
-                                <li class="text-muted text-right">L1040.00</li>
-                            </ul>
-                            <a href="shop-single.html" class="h2 text-decoration-none text-dark">Paleta Discovery Rare Beauty</a>
-                            <p class="card-text">
-                                Paleta con diferentes acabados (mattes, metálicos y glitter) en un empaque de tamaño compacto, elegante y minimalista
-                            </p>
-                            <p class="text-muted">Reviews (24)</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-12 col-md-4 mb-4">
-                    <div class="card h-100">
-                        <a href="shop-single.html">
-                            <img src="./assets/img1/bf07.jpeg" class="card-img-top" alt="...">
-                        </a>
-                        <div class="card-body">
-                            <ul class="list-unstyled d-flex justify-content-between">
-                                <li>
-                                    <i class="text-warning fa fa-star"></i>
-                                    <i class="text-warning fa fa-star"></i>
-                                    <i class="text-warning fa fa-star"></i>
-                                    <i class="text-muted fa fa-star"></i>
-                                    <i class="text-muted fa fa-star"></i>
-                                </li>
-                                <li class="text-muted text-right">L900.00</li>
-                            </ul>
-                            <a href="shop-single.html" class="h2 text-decoration-none text-dark">DUO LIP NICE Y NEUTRAL DE Rare beauty</a>
-                            <p class="card-text">
-                                Un dúo de labios de edición limitada de tamaño completo con aceite de labio tintado Soft Pinch y Kind Words Matte Lip Liner en el marrón rosa universal perfecto.
-                            </p>
-                            <p class="text-muted">Reviews (48)</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-12 col-md-4 mb-4">
-                    <div class="card h-100">
-                        <a href="shop-single.html">
-                            <img src="./assets/img1/bf08.jpg" class="card-img-top" alt="...">
-                        </a>
-                        <div class="card-body">
-                            <ul class="list-unstyled d-flex justify-content-between">
-                                <li>
-                                    <i class="text-warning fa fa-star"></i>
-                                    <i class="text-warning fa fa-star"></i>
-                                    <i class="text-warning fa fa-star"></i>
-                                    <i class="text-warning fa fa-star"></i>
-                                    <i class="text-warning fa fa-star"></i>
-                                </li>
-                                <li class="text-muted text-right">L360.00</li>
-                            </ul>
-                            <a href="shop-single.html" class="h2 text-decoration-none text-dark">SHEGLAM Líquid Contour</a>
-                            <p class="card-text">
-                                Sorpréndase con la perfección bañada por el sol con nuestro Sun Sculpt Liquid Contour. Obtenga una apariencia esculpida y arrebatada con nuestra fórmula altamente pigmentada, súper mezclable y de larga duración que hará que todos pregunten "¿Acabas de venir de vacaciones?"
-                            </p>
-                            <p class="text-muted">Reviews (74)</p>
-                        </div>
-                    </div>
-                </div>
-                <div>
-                <button type="button" onclick="location.href='CrearPedido.php'">Agregar al carrito</button>
-                </div>
+               
             </div>
         </div>
     </section>
-
-    
-
-    <style>
-    button {
-        margin: 0 auto;
-        display: block; 
-        background-color: #833576;
-        color: white;
+<style>
+    .producto:hover .iconos {
+        display: block;
     }
-    </style>
+</style>
+<section class="bg-light">
+    <div class="container py-5">
+        <div class="row text-center py-3">
+            <div class="col-lg-6 m-auto">
+                <h1 class="h1">Los Favoritos</h1>
+                <p></p>
+            </div>
+        </div>
+        <div class="row">
+            <!-- Primer Producto -->
+            <div class="col-12 col-md-4 mb-4">
+                <div class="card h-100">
+                    <a href="CrearPedido.php">
+                        <div class="product-img">
+                            <img src="./assets/img1/bf06.jpeg" class="card-img-top" alt="...">
+                            <div class="product-icons">
+                                <i class="fas fa-heart" onclick="agregarAFavoritos('Paleta Discovery Rare Beauty')"></i>
+                                <i class="fas fa-shopping-cart" onclick="window.location.href='CrearPedido.php';"></i>
+                            </div>
+                        </div>
+                    </a>
+                    <div class="card-body">
+                        <ul class="list-unstyled d-flex justify-content-between">
+                            <li>
+                                <i class="text-warning fa fa-star"></i>
+                                <i class="text-warning fa fa-star"></i>
+                                <i class="text-warning fa fa-star"></i>
+                                <i class="text-muted fa fa-star"></i>
+                                <i class="text-muted fa fa-star"></i>
+                            </li>
+                            <li class="text-muted text-right">L1040.00</li>
+                        </ul>
+                        <a href="CrearPedido.php" class="h2 text-decoration-none text-dark">Paleta Discovery Rare Beauty</a>
+                        <p class="card-text">
+                            Paleta con diferentes acabados (mattes, metálicos y glitter) en un empaque de tamaño compacto, elegante y minimalista
+                        </p>
+                        <p class="text-muted">Reviews (24)</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Segundo Producto -->
+            <div class="col-12 col-md-4 mb-4">
+                <div class="card h-100">
+                    <a href="CrearPedido.php">
+                        <div class="product-img">
+                            <img src="./assets/img1/bf07.jpeg" class="card-img-top" alt="...">
+                            <div class="product-icons">
+                                <i class="fas fa-heart" onclick="agregarAFavoritos('DUO LIP NICE Y NEUTRAL DE Rare beauty')"></i>
+                                <i class="fas fa-shopping-cart" onclick="window.location.href='CrearPedido.php';"></i>
+                            </div>
+                        </div>
+                    </a>
+                    <div class="card-body">
+                        <ul class="list-unstyled d-flex justify-content-between">
+                            <li>
+                                <i class="text-warning fa fa-star"></i>
+                                <i class="text-warning fa fa-star"></i>
+                                <i class="text-warning fa fa-star"></i>
+                                <i class="text-muted fa fa-star"></i>
+                                <i class="text-muted fa fa-star"></i>
+                            </li>
+                            <li class="text-muted text-right">L900.00</li>
+                        </ul>
+                        <a href="CrearPedido.php" class="h2 text-decoration-none text-dark">DUO LIP NICE Y NEUTRAL DE Rare beauty</a>
+                        <p class="card-text">
+                            Un dúo de labios de edición limitada de tamaño completo con aceite de labio tintado Soft Pinch y Kind Words Matte Lip Liner en el marrón rosa universal perfecto.
+                        </p>
+                        <p class="text-muted">Reviews (48)</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tercer Producto -->
+            <div class="col-12 col-md-4 mb-4">
+                <div class="card h-100">
+                    <a href="CrearPedido.php">
+                        <div class="product-img">
+                            <img src="./assets/img1/bf08.jpg" class="card-img-top" alt="...">
+                            <div class="product-icons">
+                                <i class="fas fa-heart" onclick="agregarAFavoritos('SHEGLAM Líquid Contour')"></i>
+                                <i class="fas fa-shopping-cart" onclick="window.location.href='CrearPedido.php';"></i>
+                            </div>
+                        </div>
+                    </a>
+                    <div class="card-body">
+                        <ul class="list-unstyled d-flex justify-content-between">
+                            <li>
+                                <i class="text-warning fa fa-star"></i>
+                                <i class="text-warning fa fa-star"></i>
+                                <i class="text-warning fa fa-star"></i>
+                                <i class="text-warning fa fa-star"></i>
+                                <i class="text-warning fa fa-star"></i>
+                            </li>
+                            <li class="text-muted text-right">L360.00</li>
+                        </ul>
+                        <a href="CrearPedido.php" class="h2 text-decoration-none text-dark">SHEGLAM Líquid Contour</a>
+                        <p class="card-text">
+                            Sorpréndase con la perfección bañada por el sol con nuestro Sun Sculpt Liquid Contour. Obtenga una apariencia esculpida y arrebatada con nuestra fórmula altamente pigmentada, súper mezclable y de larga duración que hará que todos pregunten "¿Acabas de venir de vacaciones?"
+                        </p>
+                        <p class="text-muted">Reviews (74)</p>
+                    </div>
+                </div>
+            </div>
+
+           
+        </div>
+    </div>
+</section>
+
+<!-- Estilos para los iconos -->
+<style>
+    .product-img {
+        position: relative;
+        display: inline-block;
+    }
+
+    .product-icons {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+
+    .product-img:hover .product-icons {
+        opacity: 1;
+    }
+
+    .product-icons i {
+        font-size: 30px;
+        color: #833576;
+        margin-right: 10px;
+        cursor: pointer;
+    }
+
+    .product-icons i:hover {
+        color: #ff6b81;
+    }
+</style>
+
+<!-- Script para mostrar el mensaje -->
+<script>
+    function agregarAFavoritos(producto) {
+        alert('¡Se agregó "' + producto + '" a tus favoritos! 💖');
+    }
+</script>
 
         <div class="w-100 bg-black py-3">
             <div class="container">
@@ -265,7 +403,18 @@
                 </div>
             </div>
         </div>
-
+<!-- Success Message -->
+<script>
+        function showSuccessMessage() {
+            // Mostrar el mensaje de éxito
+            document.getElementById('successModal').classList.add('show');
+            
+            // Ocultar el mensaje después de 3 segundos
+            setTimeout(function() {
+                document.getElementById('successModal').classList.remove('show');
+            }, 3000);
+        }
+    </script>
     </footer>
 
     <script src="assets/js/jquery-1.11.0.min.js"></script>

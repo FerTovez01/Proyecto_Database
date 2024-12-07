@@ -91,11 +91,24 @@
             <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#templatemo_main_nav" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
+            <div class="align-self-center collapse navbar-collapse flex-fill d-lg-flex justify-content-lg-end" id="templatemo_main_nav">
+    <!-- Contenedor con el botón Menú y los íconos alineados a la derecha -->
+    <div class="d-flex align-items-center ms-auto">
+        <!-- Botón Menú -->
+        <button type="button" onclick="location.href='MenuBotones.php'" class="btn btn-custom me-3">Menú</button>
 
-            <div class="align-self-center collapse navbar-collapse flex-fill  d-lg-flex justify-content-lg-between" id="templatemo_main_nav">
-                <div class="flex-fill">
-                    <button type="button1" onclick="location.href='MenuBotones.php'">Menu</button>
-                    <style>
+        <!-- Íconos de Manual Técnico y Usuario -->
+        <!-- Ícono Manual Técnico -->
+        <a href="http://localhost/proyectoweb/Manuales/Manual-Tecnico-Bella-Fusion.pdf" target="_blank" title="Manual Técnico" class="me-3">
+            <i class="fas fa-book" style="font-size: 24px; color: #833576; cursor: pointer;"></i>
+        </a>
+        <!-- Ícono Manual Usuario -->
+        <a href="http://localhost/proyectoweb/Manuales/Manual de Usuario (2).pdf" target="_blank" title="Manual de Usuario">
+            <i class="fas fa-user-circle" style="font-size: 24px; color: #833576; cursor: pointer;"></i>
+        </a>
+    </div>
+</div>
+      <style>
                     button[type="button1"] {
                         background-color: #833576;
                         color: white;

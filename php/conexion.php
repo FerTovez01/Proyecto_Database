@@ -1,18 +1,20 @@
 <?php
 $server = "localhost";
 $user = "root";
-$pass="";
-$DB="bella_fusion_db";
+$pass = "";
+$DB = "bella_fusion_db";
 
-$conexion = new mysqli ($server, $user,$pass,$DB);
+// Establecer la conexión
+$conexion = new mysqli($server, $user, $pass, $DB);
 
-
-if ($conexion -> connect_errno){
-
-     die ("Conexion Fallida". $conexion-> connect_errno);
-
-
-} else {
-
+// Verificar si la conexión es exitosa
+if ($conexion->connect_errno) {
+    die("Conexión Fallida: " . $conexion->connect_errno);
 } 
+
+// Función para retornar la conexión
+function retornarConexion() {
+    global $conexion;
+    return $conexion;
+}
 ?>

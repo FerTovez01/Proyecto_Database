@@ -10,7 +10,7 @@ set_include_path(get_include_path() . PATH_SEPARATOR . 'C:\xampp\htdocs\Proyecto
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Menu </title>
+    <title> Lista de Facturas </title>
     <link rel="stylesheet" href="styles2.css">
 </head>
 <body>
@@ -34,8 +34,8 @@ set_include_path(get_include_path() . PATH_SEPARATOR . 'C:\xampp\htdocs\Proyecto
                 <button type="button" onclick="location.href='CategoriaLista.php'">Gestion Categorias</button>
             </div>
             <div class="column">
-                <button type="button" onclick="location.href='GestionCliente.php'">Gestion Inventario</button>
-                <button type="button" onclick="location.href='GenerarFactura.php'">Generar Factura</button>
+                <button type="button" onclick="location.href='GestionInventario.php'">Gestion Inventario</button>
+                <button type="button" onclick="location.href='FacturaLista.php'">Generar Factura</button>
                 
             </div>
         </form>
